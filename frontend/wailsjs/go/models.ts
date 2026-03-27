@@ -1,8 +1,81 @@
 export namespace manifest {
 	
+	export class Attr {
+	    Key: string;
+	    Value: string;
 	
+	    static createFrom(source: any = {}) {
+	        return new Attr(source);
+	    }
 	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Key = source["Key"];
+	        this.Value = source["Value"];
+	    }
+	}
+	export class AttrConvPreview {
+	    Result: Attr[];
+	    LeftBehind: string[];
 	
+	    static createFrom(source: any = {}) {
+	        return new AttrConvPreview(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Result = this.convertValues(source["Result"], Attr);
+	        this.LeftBehind = source["LeftBehind"];
+	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
+	export class AttrStatus {
+	    Item: string;
+	    In: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new AttrStatus(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Item = source["Item"];
+	        this.In = source["In"];
+	    }
+	}
+	export class Status {
+	    From: string;
+	    To: string;
+	    In: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Status(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.From = source["From"];
+	        this.To = source["To"];
+	        this.In = source["In"];
+	    }
+	}
 	export class attrInstance {
 	    key: string;
 	    value: string;
@@ -37,7 +110,7 @@ export namespace manifest {
 		    if (!a) {
 		        return a;
 		    }
-		    if (a.slice) {
+		    if (a.slice && a.map) {
 		        return (a as any[]).map(elem => this.convertValues(elem, classs));
 		    } else if ("object" === typeof a) {
 		        if (asMap) {
@@ -78,7 +151,7 @@ export namespace manifest {
 		    if (!a) {
 		        return a;
 		    }
-		    if (a.slice) {
+		    if (a.slice && a.map) {
 		        return (a as any[]).map(elem => this.convertValues(elem, classs));
 		    } else if ("object" === typeof a) {
 		        if (asMap) {
@@ -136,7 +209,7 @@ export namespace manifest {
 		    if (!a) {
 		        return a;
 		    }
-		    if (a.slice) {
+		    if (a.slice && a.map) {
 		        return (a as any[]).map(elem => this.convertValues(elem, classs));
 		    } else if ("object" === typeof a) {
 		        if (asMap) {
@@ -170,7 +243,7 @@ export namespace manifest {
 		    if (!a) {
 		        return a;
 		    }
-		    if (a.slice) {
+		    if (a.slice && a.map) {
 		        return (a as any[]).map(elem => this.convertValues(elem, classs));
 		    } else if ("object" === typeof a) {
 		        if (asMap) {
